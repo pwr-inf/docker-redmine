@@ -44,6 +44,10 @@ else
   exec_as_redmine rm -rf /tmp/redmine-${REDMINE_VERSION}.tar.gz
 fi
 
+exec_as_redmine mkdir -p ${REDMINE_INSTALL_DIR}/plugins
+cd ${REDMINE_INSTALL_DIR}/plugins && exec_as_redmine git clone https://github.com/pwr-inf/redmine_oauth_engine.git && cd -
+
+
 # HACK: we want both the pg and mysql2 gems installed, so we remove the
 #       respective lines and add them at the end of the Gemfile so that they
 #       are both installed.
@@ -73,7 +77,7 @@ if [[ -d ${GEM_CACHE_DIR} ]]; then
   cp -a ${GEM_CACHE_DIR} ${REDMINE_INSTALL_DIR}/vendor/cache
   chown -R ${REDMINE_USER}: ${REDMINE_INSTALL_DIR}/vendor/cache
 fi
-exec_as_redmine bundle install -j$(nproc) --without development test --path ${REDMINE_INSTALL_DIR}/vendor/bundle
+exec_as_redmine bundle install -j$(nproc) test --path ${REDMINE_INSTALL_DIR}/vendor/bundle
 
 # finalize redmine installation
 exec_as_redmine mkdir -p ${REDMINE_INSTALL_DIR}/tmp ${REDMINE_INSTALL_DIR}/tmp/pdf ${REDMINE_INSTALL_DIR}/tmp/pids ${REDMINE_INSTALL_DIR}/tmp/sockets
