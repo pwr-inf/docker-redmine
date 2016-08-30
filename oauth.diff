@@ -1,0 +1,11 @@
+--- app/controllers/application_controller.rb.orig      2016-08-11 15:45:17.530567092 +0530
++++ app/controllers/application_controller.rb   2016-08-11 15:46:17.184099017 +0530
+@@ -240,7 +240,7 @@
+           if request.xhr?
+             head :unauthorized
+           else
+-            redirect_to :controller => "account", :action => "login", :back_url => url
++            redirect_to :controller => "redmine_oauth", :action => "oauth_engine", :back_url => url
+           end
+         }
+         format.atom { redirect_to :controller => "account", :action => "login", :back_url => url }
